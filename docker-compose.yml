@@ -1,0 +1,45 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-dlp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dlp}
+      POSTGRES_DB: ${POSTGRES_DB:-dlp}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dlp} -d ${POSTGRES_DB:-dlp}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-dlp}:${POSTGRES_PASSWORD:-dlp}@db:5432/${POSTGRES_DB:-dlp}
+      JWT_SECRET: ${JWT_SECRET:-troque-este-segredo-em-producao}
+      PSEUDONYMIZATION_KEY: ${PSEUDONYMIZATION_KEY:-troque-esta-chave-em-producao}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@starkbank.local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+      CLASSIFIER_BACKEND: ${CLASSIFIER_BACKEND:-rules}
+      CORS_ORIGINS: '["http://localhost:3000"]'
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        BACKEND_URL: http://backend:8000
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:

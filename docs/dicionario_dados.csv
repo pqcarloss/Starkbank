@@ -1,0 +1,15 @@
+STARKBANK — DADOS FICTÍCIOS | Dicionario_Dados,,,,,,
+,,,,,,
+Aba,Campo,Tipo,Definição,Origem fictícia,Periodicidade,Sensível?
+Eventos_Uso_IA,ID Evento,Texto,Identificador único do evento,Solução de rastreabilidade,Contínua,Não
+Eventos_Uso_IA,ID Usuário,Texto,Identificador corporativo anonimizado,IAM/SSO,Contínua,Sim
+Eventos_Uso_IA,Ferramenta,Texto,Aplicação de IA utilizada,Inventário/Log,Contínua,Não
+Eventos_Uso_IA,Tipo informação,Texto,Categoria do conteúdo utilizado,Classificador/DLP,Contínua,Sim
+Eventos_Uso_IA,Sensibilidade,Texto,"Pública, Interna, Confidencial ou Crítica",Política de classificação,Contínua,Sim
+Eventos_Uso_IA,Finalidade,Texto,Motivo declarado/inferido para o uso,Log/registro,Contínua,Sim
+Eventos_Uso_IA,Risco,Texto,"Baixo, Médio, Alto ou Crítico",Motor de regras,Contínua,Não
+Eventos_Uso_IA,Evidências,Texto,Sinais que sustentam a classificação,Motor de regras,Contínua,Sim
+Alertas,Status,Texto,"Aberto, Em análise ou Tratado",Workflow,Contínua,Não
+Ferramentas_IA,Status,Texto,"Aprovada, aprovada condicional ou não aprovada",Governança de IA,Mensal,Não
+Tipos_Informacao,Classificação padrão,Texto,Nível padrão por tipo de informação,Governança de Dados,Mensal,Sim
+Casos_Validacao,Resultado esperado,Texto,Referência de negócio para teste,Segurança/Compliance,Challenge,Não
